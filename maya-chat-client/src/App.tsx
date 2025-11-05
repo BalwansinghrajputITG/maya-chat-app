@@ -34,8 +34,6 @@ function App() {
     event.preventDefault();
     if (sendMsg.trim() === "") return;
      const newMsg: Message = { userId: 1, msg: sendMsg };
-   //  console.log(newMsg)
-   // setMsg((prev) => [...prev, newMsg]);
 
     socket.emit("message", newMsg);
 
