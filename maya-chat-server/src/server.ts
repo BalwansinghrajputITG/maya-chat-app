@@ -4,9 +4,10 @@ import { Server } from "socket.io";
 import cors from "cors";
 import initSocket from "./Sockets/socket";
 import dbConnect from "./Configs/db";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { APP_PORT } from "./Configs/env";
+import { errorHandler } from "./middlewares/errolHandler.middleware";
+import bodyParser from "body-parser";
+import authRouter from "./Routes/auth.routes";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -24,13 +26,17 @@ const io = new Server(server, {
   },
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = APP_PORT;
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello TypeScript + Express!");
 });
+
+app.use("/api/auth" , authRouter)
+
+app.use(errorHandler);
 
 initSocket(io);
 dbConnect();
