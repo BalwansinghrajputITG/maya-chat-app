@@ -8,3 +8,6 @@ export const SALT_ROUND: number = Number(process.env.SALT_ROUND) || 10;
 export const APP_PORT = process.env.PORT || 5000;
 
 export const DB_URL: db_url_type = process.env.DB_URL || undefined;
+
+export const SESSION_SECRET: db_url_type =
+  process.env.SESSION_SECRET || undefined;

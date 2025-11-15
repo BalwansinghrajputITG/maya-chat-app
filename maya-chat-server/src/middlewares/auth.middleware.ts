@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 
-
 export const registerUserHandler = async (
   req: Request,
   res: Response,
@@ -31,5 +30,18 @@ export const loginUserHandler = async (
 
     return;
   }
+  next();
+};
+
+export const sessionhandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  if (!(req.session as any).userId) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
   next();
 };

@@ -19,8 +19,13 @@ const blogSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ["male", "female", "outher"],
+    enum: ["male", "female", "souther"],
     require: true,
+  },
+
+  isOnline: {
+    type: Boolean,
+    default: false,
   },
 });
 

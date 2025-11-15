@@ -2,20 +2,12 @@ import { hasPassword, virifyPassword } from "../lib/password";
 import User from "../Models/user.model";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import {
+  loginTypes,
+  registerTypes,
+  valideUserNameTypes,
+} from "../types/authTypes";
 dotenv.config();
-
-interface registerTypes {
-  name?: string;
-  userName: string;
-  password: string;
-  gender?: string;
-  email: string;
-}
-
-interface loginTypes {
-  userNameOrEmail: string;
-  password: string;
-}
 
 const jwtToke: string = process.env.JWT || "default-secret-key";
 
@@ -85,4 +77,18 @@ export const loginUserService = async (userData: loginTypes) => {
   );
 
   return { token, isUser };
+};
+
+export const isValideUserName = async (userName: valideUserNameTypes) => {
+  console.log(userName.userName);
+  const isUserName = await User.exists({ userName: userName.userName });
+
+  console.log(isUserName);
+
+  if (isUserName) {
+    console.log(isUserName, "----------------------------------");
+    throw new Error("This username is allready exists");
+  }
+
+  return { message: "Your User name is crroctec" };
 };
